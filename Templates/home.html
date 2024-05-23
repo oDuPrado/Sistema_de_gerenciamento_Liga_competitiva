@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Liga Mística de Yu-Gi-Oh</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        nav {
+            background-color: #222;
+            padding: 10px 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 30px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 15px;
+            padding: 10px 20px;
+            background-color: #444;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .title {
+            margin: 0;
+            padding: 30px 0;
+            font-size: 2.5rem;
+            text-align: center;
+            width: 100%;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            flex-wrap: wrap;
+            gap: 20px; /* Espaçamento entre os cartões */
+        }
+        .card {
+            background-color: #444;
+            border-radius: 10px;
+            width: 250px; /* tamanho dos cartões */
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.7);
+        }
+        .button {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            background: #277aab;
+            border-radius: 15px;
+            padding: 20px 30px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background: #0090C5;
+        }
+        footer {
+            background-color: #222;
+            font-size: 0.9rem;
+            color: #aaa;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'deck_registration' %}">Cadastrar Deck</a>
+        <a href="{% url 'player_registration' %}">Cadastrar Jogadores</a>
+        <a href="{% url 'view_players' %}">Ver Jogadores</a>
+        <!-- Adicione aqui mais links conforme necessário -->
+    </nav>
+
+    <h1 class="title">LIGA MÍSTICA DE YU-GI-OH</h1>
+
+    <div class="container">
+        <!-- Ajuste o número de cartões e links conforme necessário -->
+        <div class="card">
+            <a href="{% url 'view_ranking' %}" class="button">Ranking</a>
+        </div>
+        <div class="card">
+            <a href="{% url 'tournament_day' %}" class="button">Dia de Torneios</a>
+        </div>
+        <div class="card">
+            <a href="{% url 'player_registration' %}" class="button">Jogadores</a>
+        </div>
+        <div class="card">
+            <a href="{% url 'register_tournament' %}" class="button">Cadastrar Torneio</a>
+        </div>
+    </div>
+
+    <footer>
+        © 2024 Liga Mística de Yu-Gi-Oh. Todos os direitos reservados.
+    </footer>
+</body>
+</html>

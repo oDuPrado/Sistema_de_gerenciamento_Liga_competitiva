@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="deck-stats-container" style="text-align: center;">
+    <h2>Relatório do Meta</h2>
+    <div class="chart-container" style="position: relative; width: 80vw; max-width: 100%; margin: auto;">
+        <canvas id="decksChart"></canvas>
+    </div>
+    <div id="custom-legend" class="custom-legend"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const deckData = {{ deck_stats|safe }};
+    
+    const deckNames = deckData.map(deck => deck.name);
+    const deckPercentages = deckData.map(deck => deck.percentage);
+
+    // Conjunto de cores personalizadas
+    const customColors = [
+        "#FF5733", "#33FF57", "#5733FF", "#FF3399", "#99FF33", "#3399FF", "#FF9966", "#66FF99", "#9966FF",
+        "#FF6633", "#33FF66", "#6633FF", "#FF33CC", "#CCFF33", "#33CCFF", "#FFCC66", "#66FFCC", "#CC66FF",
+        "#FF9966", "#66FF99", "#9966FF", "#FF6699", "#99FF66", "#6699FF", "#FF3366", "#66FF33", "#3366FF",
+        "#FF33FF", "#FFFF33", "#33FFFF"
+    ];
+
+    // Ordenar os decks por porcentagem de participação (decrescente)
+    deckData.sort((a, b) => b.percentage - a.percentage);
+
+    const data = {
+        labels: deckNames,
+        datasets: [{
+            data: deckPercentages,
+            backgroundColor: customColors,
+            hoverOffset: 4
+        }]
+    };
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false, // Oculta a legenda padrão
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        if (context.parsed !== null) {
+                            label += context.parsed + '%';
+                        }
+                        return label;
+                    }
+                }
+            }
+        }
+    };
+
+    const config = {
+        type: 'pie',
+        data: data,
+        options: options
+    };
+
+    const decksChart = new Chart(document.getElementById('decksChart'), config);
+
+    // Gera a legenda personalizada
+    const customLegend = document.getElementById('custom-legend');
+    deckNames.forEach((name, index) => {
+        const legendItem = document.createElement('div');
+        legendItem.classList.add('legend-item');
+        legendItem.innerHTML = `
+            <span class="legend-color" style="background-color: ${customColors[index]}"></span>
+            <p class="legend-text">${name} - ${deckPercentages[index]}%</p>
+        `;
+        customLegend.appendChild(legendItem);
+    });
+</script>
+<style>
+
+    /* Estilos para a legenda personalizada */
+    .custom-legend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .legend-color {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    .legend-text {
+        font-size: 14px;
+        color: white;
+    }
+</style>
+{% endblock %}
